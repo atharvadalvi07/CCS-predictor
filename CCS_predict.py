@@ -3,7 +3,6 @@
 
 # ## Engr 1330 - Computational Thinking and Data Science Spring 2022
 # # Concrete Strength Predictor Final Project
-# **Atharva Dalvi**
 
 # ## Concrete Strength Predictor Final Project - Background
 # 
@@ -78,15 +77,10 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # # Exploratory Data Analysis
 
-# In[2]:
-
 
 #making a dataframe of the csv file
 df = pd.read_csv("1330 concrete.csv")
 df
-
-
-# In[3]:
 
 
 #Getting the information (i.e, the number of rows and the data types present in each column) and the basic statistical measures 
@@ -94,9 +88,6 @@ df
 df.info()
 
 df.describe()
-
-
-# In[4]:
 
 
 df.rename(columns = {"Cement (component 1)(kg in a m^3 mixture)":"cement",
@@ -107,14 +98,9 @@ df.rename(columns = {"Cement (component 1)(kg in a m^3 mixture)":"cement",
 df
 
 
-# In[5]:
-
-
 #making a pairplot of the database
 sns.pairplot(df)
 
-
-# In[6]:
 
 
 #Computing the correlation coefficient between all the columns in the dataset and displaying them as a heat map
@@ -128,22 +114,15 @@ plt.title("Feature Correlation Heatmap")
 
 # # Multiple Linear Regression
 
-# In[7]:
-
 
 x = ['cement' , 'superplasticizer' , 'Age (day)']
 X = df[x]
 Y = df['ccs']
 
 
-# In[8]:
-
 
 from sklearn.model_selection import train_test_split
 X_train,X_test,y_train,y_test=train_test_split(X,Y,test_size=0.20,random_state=0)
-
-
-# In[9]:
 
 
 from sklearn.linear_model import LinearRegression
@@ -154,7 +133,6 @@ print("the coeff are",lm.coef_)
 print("the intercept is ",lm.intercept_)
 
 
-# In[10]:
 
 
 #Testing the model on the training set
@@ -167,7 +145,6 @@ plt.ylabel("Y_train_pred")
 plt.title("Predictions vs. actual values in the training set")
 
 
-# In[11]:
 
 
 #Testing the model on the test set
@@ -180,8 +157,6 @@ plt.xlabel("Y_test")
 plt.ylabel("Y_test_pred")
 plt.title("Predictions vs. actual values in the test set")
 
-
-# In[12]:
 
 
 #Computing the MSE and the RMSE values for the predictions made on the training set
@@ -197,8 +172,6 @@ RMSE_test = np.sqrt(metrics.mean_squared_error(y_test, y_test_pred))
 print("the root mean square error of the predictions made on test set is",RMSE_test)
 
 
-# In[13]:
-
 
 import sklearn.metrics
 y_pred = lm.predict(X)
@@ -207,7 +180,6 @@ sklearn.metrics.r2_score(Y, y_pred)
 
 # # Exponential Data Model
 
-# In[14]:
 
 
 Y = np.log(Y)
@@ -219,7 +191,6 @@ print(mod.summary())
 
 # # Power-Law Model
 
-# In[15]:
 
 
 # Plot regression against actual data
@@ -232,15 +203,12 @@ plt.grid()
 plt.title("Cement vs Cement compressive strength")
 
 
-# In[16]:
 
 
 df['lnX']=df['cement'].apply(math.log)
 df['lnY']=df['ccs'].apply(math.log)
 df.head()
 
-
-# In[17]:
 
 
 plt.plot(df['lnX'], df['lnY'], marker='o', linewidth=0)           # scatter plot showing actual data
@@ -250,8 +218,6 @@ plt.ylabel('ccs')
 plt.grid()
 plt.title("Cement vs Cement compressive strength")
 
-
-# In[18]:
 
 
 # Initialise and fit linear regression model using `statsmodels`
@@ -266,7 +232,6 @@ sse = model1.ssr
 rsq = model1.rsquared
 
 
-# In[19]:
 
 
 titleline = "Cement vs Cement compressive strength \n Data model y = " + str(round(beta0,3)) + " + " + str(round(beta1,3)) + "x" # put the model into the title
@@ -289,7 +254,6 @@ plt.show();
 
 # # Interface to allow users to enter concrete mixtures and return an estimated strength and an assessment of the uncertainty in the estimate
 
-# In[20]:
 
 
 # number of elements
@@ -316,7 +280,6 @@ userpred
 
 # # Interface to allow users to add observations to the underlying database, and automatically update the Data Model to incorporate the new observations
 
-# In[21]:
 
 
 copydf = pd.read_csv("1330 concrete.csv")
@@ -340,7 +303,7 @@ for i in range(n):
 copydf
 
 
-# In[22]:
+
 
 
 newindep = copydf[['Cement (component 1)(kg in a m^3 mixture)' , 'Superplasticizer (component 5)(kg in a m^3 mixture)' , 'Age (day)']]
@@ -359,8 +322,6 @@ plt.title("Predictions vs. actual values in the training set")
 
 # # Predicting the concrete strength for the given values
 
-# In[23]:
-
 
 predictordata = pd.DataFrame({'cement' : [175.0,320.0,320.0,320.0,530.0],
                               'blast furnace slag' : [13.0,0.0,0.0,73.0,359.0],
@@ -372,8 +333,6 @@ predictordata = pd.DataFrame({'cement' : [175.0,320.0,320.0,320.0,530.0],
                               'Age (day)' : [3.0,7.0,28.0,45.0,365.0]})
 predictordata
 
-
-# In[24]:
 
 
 x1 = ['cement' , 'superplasticizer' , 'Age (day)']
